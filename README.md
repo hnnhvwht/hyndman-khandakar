@@ -4,8 +4,6 @@
 
 This package implements and improves the Hyndman&ndash;Khandakar algorithm for the automatic selection of autoregressive integrated moving average (ARIMA) models for time series analysis and forecasting. It is a wrapper around the [StatsModels](https://github.com/statsmodels/statsmodels) package.
 
-The original algorithm uses only the Kwiatkowski&ndash;Phillips&ndash;Schmidt&ndash;Shin (KPSS) test to determine the degree of differencing. This package also incorporates the augmented Dicker&ndash;Fuller (ADF) test. This distinction is key. The KPSS test evaluates the null hypothesis that the time series is stationary around a deterministic trend against the alternative of a unit root. On the other hand, the ADF test evaluates the null hypothesis that the time series contains a unit root against the alternative of stationarity. These tests are complementary, and the idea behind this implementation is that the inclusion of the ADF test makes the process of finding the degree of differencing more robust.
-
 ## Dependencies
 
 - NumPy
@@ -24,6 +22,10 @@ The `hyndman_khandakar` module contains a single class, `HyndmanKhandakar`. This
 Executing the single `find()` method will initiate a search of the model space (or a subset thereof) and store the model object (`model`), order and trend (`order`), Akaike information criterion with correction (AICc) for small sample sizes (`aicc`), and the *p*-values for the ADF and KPSS tests (`p_values`) in the class instance. Additional information, such as the parameters, can be accessed through the `model` attribute. Moreover, when calling `find()`, you may pass keyword arguments to be propagated to the `statsmodels.tsa.arima_model.ARIMA.fit()` method.
 
 For an example of usage, see *tests/test_hyndman_khandakar.py*.
+
+## Description
+
+The original algorithm uses only the Kwiatkowski&ndash;Phillips&ndash;Schmidt&ndash;Shin (KPSS) test to determine the degree of differencing. This package also incorporates the augmented Dicker&ndash;Fuller (ADF) test. This distinction is key. The KPSS test evaluates the null hypothesis that the time series is stationary around a deterministic trend against the alternative of a unit root. On the other hand, the ADF test evaluates the null hypothesis that the time series contains a unit root against the alternative of stationarity. These tests are complementary, and the idea behind this implementation is that the inclusion of the ADF test makes the process of finding the degree of differencing more robust.
 
 ## Time Complexity
 
@@ -54,8 +56,6 @@ This package does not presently support seasonal models.
 
 Ce paquet logiciel met en pratique et am&eacute;liore l'algorithme de Hyndman-Khandakar pour la s&eacute;lection automatique des mod&egrave;les autor&eacute;gressifs &agrave; moyennes mobiles int&eacute;gr&eacute;s (ARMMI) pour l'analyse des s&eacute;ries temporelles et la pr&eacute;vision. Il encapsule le paquet logiciel [StatsModels](https://github.com/statsmodels/statsmodels).
 
-L'algorithme original utilise seulement le test de Kwiatkowski-Phillips-Schmidt-Shin (KPSS) pour trouver l'ordre de diff&eacute;renciation. Ce paquet logiciel incorpore aussi le test augment&eacute; de Dickey-Fuller (ADF). Ce distinction est crucial. Le test de KPSS &eacute;value l'hypoth&egrave;se nulle que la s&eacute;rie temporelle est stationnaire environ une tendance d&eacute;terministe contre l'alternative de la pr&eacute;sence d'une racine unitaire. D'autre part, le test ADF &eacute;value l'hypoth&egrave;se nulle que la s&eacute;rie temporelle contient une racine unitaire contre l'alternative d'un processus stationnaire. Ces tests sont compl&eacute;mentaires et l'id&eacute;e derri&egrave;re cette mise en &oelig;uvre est que l'inclusion du test ADF rend plus solide la d&eacute;termination de l'ordre de diff&eacute;renciation.
-
 ## D&eacute;pendances
 
 - NumPy
@@ -67,13 +67,17 @@ L'algorithme original utilise seulement le test de Kwiatkowski-Phillips-Schmidt-
 Le module `hyndman_khandakar` contient une seule classe, `HyndmanKhandakar`, qu'on peut initialiser avec les param&egrave;tres suivants :
 - `ts`, requis &ndash; la s&eacute;rie temporelle (index&eacute;e avec la date et l'heure) ;
 - `alpha`, optionnel &ndash; le taux des erreurs du 1er type pour le test ADF et le test de KPSS (valeur par d&eacute;faut : `0.05`) ;
-- `conditions`, optionnel &ndash; le majorant (inclus) pour *p* et *q* ainsi que le minorant (exclusif) pour les racines des fonctions polynomiales AR et MM (valeur par d&eacute;faut : `(5, 1.001)`) ;
+- `conditions`, optionnel &ndash; le majorant (inclus) pour *p* et *q* ainsi que le minorant (exclusif) pour les valeurs absolues des racines des fonctions polynomiales AR et MM (valeur par d&eacute;faut : `(5, 1.001)`) ;
 - `full_search`, optionnel &ndash; si parcourir tous les combinaisons possibles de *p* et *q* (avec *d* fixe) allant jusqu'au majorant sp&eacute;cifi&eacute; par le param&egrave;tre `conditions` (valeur par d&eacute;faut : `False`) ; et
 - `verbose`, optionnel &ndash; si afficher des alertes et des d&eacute;tails de la proc&eacute;dure d'ajustement (valeur par d&eacute;faut : `0`).
 
-L'ex&eacute;cution de la seule m&eacute;thode, `find()`, initierait des recherches de l'espace des mod&egrave;les ou un sous-ensemble de celui-ci et entreposerait l'objet de mod&egrave;le (`model`), l'ordre et la tendance (`order`), le crit&egrave;re d'information d'Akaike corrig&eacute; (`aicc`) pour les &eacute;chantillons petits et les valeurs-*p* des tests (`p_values`) dans l'instance de la classe. On peut acc&eacute;der aux informations suppl&eacute;mentaires comme les coefficients du mod&egrave;le par l'attribut `model`. De plus, on peut passer des arguments &agrave; la m&eacute;thode `find()`, qui seraient propag&eacute;s &agrave; la m&eacute;thode `statsmodels.tsa.arima_model.ARIMA.fit()`.
+L'ex&eacute;cution de la seule m&eacute;thode, `find()`, initierait des recherches dans l'espace des mod&egrave;les ou un sous-ensemble de celui-ci et entreposerait l'objet de mod&egrave;le (`model`), l'ordre et la tendance (`order`), le crit&egrave;re d'information d'Akaike corrig&eacute; (`aicc`) pour les &eacute;chantillons petits et les valeurs-*p* des tests (`p_values`) dans l'instance de la classe. On peut acc&eacute;der aux informations suppl&eacute;mentaires comme les coefficients du mod&egrave;le par l'attribut `model`. De plus, on peut passer des arguments &agrave; la m&eacute;thode `find()`, qui seraient propag&eacute;s &agrave; la m&eacute;thode `statsmodels.tsa.arima_model.ARIMA.fit()`.
 
 Voyez le fichier *tests/test_hyndman_khandakar.py* pour un exemple de l'utilisation.
+
+## Description
+
+L'algorithme original utilise seulement le test de Kwiatkowski-Phillips-Schmidt-Shin (KPSS) pour trouver l'ordre de diff&eacute;renciation. Ce paquet logiciel incorpore aussi le test augment&eacute; de Dickey-Fuller (ADF). Ce distinction est crucial. Le test de KPSS &eacute;value l'hypoth&egrave;se nulle que la s&eacute;rie temporelle est stationnaire environ une tendance d&eacute;terministe contre l'alternative de la pr&eacute;sence d'une racine unitaire. D'autre part, le test ADF &eacute;value l'hypoth&egrave;se nulle que la s&eacute;rie temporelle contient une racine unitaire contre l'alternative d'un processus stationnaire. Ces tests sont compl&eacute;mentaires et l'id&eacute;e derri&egrave;re cette mise en &oelig;uvre est que l'inclusion du test ADF rend plus solide la d&eacute;termination de l'ordre de diff&eacute;renciation.
 
 ## Complexit&eacute; temporelle
 
