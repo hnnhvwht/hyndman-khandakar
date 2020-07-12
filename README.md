@@ -23,7 +23,7 @@ Executing the single `find()` method will initiate a search of the model space (
 
 For an example of usage, see *tests/test_hyndman_khandakar.py*.
 
-## Description
+## Theory
 
 The original algorithm uses only the Kwiatkowski&ndash;Phillips&ndash;Schmidt&ndash;Shin (KPSS) test to determine the degree of differencing. This package also incorporates the augmented Dicker&ndash;Fuller (ADF) test. This distinction is key. The KPSS test evaluates the null hypothesis that the time series is stationary around a deterministic trend against the alternative of a unit root. On the other hand, the ADF test evaluates the null hypothesis that the time series contains a unit root against the alternative of stationarity. These tests are complementary, and the idea behind this implementation is that the inclusion of the ADF test makes the process of finding the degree of differencing more robust.
 
@@ -54,7 +54,7 @@ This package does not presently support seasonal models.
 
 ## Vue d'ensemble
 
-Ce paquet logiciel met en pratique et am&eacute;liore l'algorithme de Hyndman-Khandakar pour la s&eacute;lection automatique des mod&egrave;les autor&eacute;gressifs &agrave; moyennes mobiles int&eacute;gr&eacute;s (ARMMI) pour l'analyse des s&eacute;ries temporelles et la pr&eacute;vision. Il encapsule le paquet logiciel [StatsModels](https://github.com/statsmodels/statsmodels).
+Ce paquet logiciel met en pratique et am&eacute;liore l'algorithme de Hyndman-Khandakar pour la s&eacute;lection automatique de mod&egrave;les autor&eacute;gressifs &agrave; moyennes mobiles int&eacute;gr&eacute;s (ARMMI) pour l'analyse de s&eacute;ries temporelles et la pr&eacute;vision. Il encapsule le paquet logiciel [StatsModels](https://github.com/statsmodels/statsmodels).
 
 ## D&eacute;pendances
 
@@ -66,30 +66,30 @@ Ce paquet logiciel met en pratique et am&eacute;liore l'algorithme de Hyndman-Kh
 
 Le module `hyndman_khandakar` contient une seule classe, `HyndmanKhandakar`, qu'on peut initialiser avec les param&egrave;tres suivants :
 - `ts`, requis &ndash; la s&eacute;rie temporelle (index&eacute;e avec la date et l'heure) ;
-- `alpha`, optionnel &ndash; le taux des erreurs du 1er type pour le test ADF et le test de KPSS (valeur par d&eacute;faut : `0.05`) ;
-- `conditions`, optionnel &ndash; le majorant (inclus) pour *p* et *q* ainsi que le minorant (exclusif) pour les valeurs absolues des racines des fonctions polynomiales AR et MM (valeur par d&eacute;faut : `(5, 1.001)`) ;
+- `alpha`, optionnel &ndash; le taux d'erreurs du 1er type pour le test ADF et le test de KPSS (valeur par d&eacute;faut : `0.05`) ;
+- `conditions`, optionnel &ndash; le majorant (inclus) pour *p* et *q* ainsi que le minorant (exclusif) pour les valeurs absolues des racines de fonctions polynomiales AR et MM (valeur par d&eacute;faut : `(5, 1.001)`) ;
 - `full_search`, optionnel &ndash; si parcourir tous les combinaisons possibles de *p* et *q* (avec *d* fixe) allant jusqu'au majorant sp&eacute;cifi&eacute; par le param&egrave;tre `conditions` (valeur par d&eacute;faut : `False`) ; et
-- `verbose`, optionnel &ndash; si afficher des alertes et des d&eacute;tails de la proc&eacute;dure d'ajustement (valeur par d&eacute;faut : `0`).
+- `verbose`, optionnel &ndash; si afficher d'alertes et des d&eacute;tails de la proc&eacute;dure d'ajustement (valeur par d&eacute;faut : `0`).
 
-L'ex&eacute;cution de la seule m&eacute;thode, `find()`, initierait des recherches dans l'espace des mod&egrave;les ou un sous-ensemble de celui-ci et entreposerait l'objet de mod&egrave;le (`model`), l'ordre et la tendance (`order`), le crit&egrave;re d'information d'Akaike corrig&eacute; (`aicc`) pour les &eacute;chantillons petits et les valeurs-*p* des tests (`p_values`) dans l'instance de la classe. On peut acc&eacute;der aux informations suppl&eacute;mentaires comme les coefficients du mod&egrave;le par l'attribut `model`. De plus, on peut passer des arguments &agrave; la m&eacute;thode `find()`, qui seraient propag&eacute;s &agrave; la m&eacute;thode `statsmodels.tsa.arima_model.ARIMA.fit()`.
+L'ex&eacute;cution de la seule m&eacute;thode, `find()`, initierait de recherches dans l'espace de mod&egrave;les ou un sous-ensemble de celui-ci et entreposerait l'objet de mod&egrave;le (`model`), l'ordre et la tendance (`order`), le crit&egrave;re d'information d'Akaike corrig&eacute; (`aicc`) pour les &eacute;chantillons petits et les valeurs-*p* des tests (`p_values`) dans l'instance de la classe. On peut acc&eacute;der aux informations suppl&eacute;mentaires comme les coefficients du mod&egrave;le par l'attribut `model`. De plus, on peut passer d'arguments &agrave; la m&eacute;thode `find()`, qui seraient propag&eacute;s &agrave; la m&eacute;thode `statsmodels.tsa.arima_model.ARIMA.fit()`.
 
 Voyez le fichier *tests/test_hyndman_khandakar.py* pour un exemple de l'utilisation.
 
-## Description
+## Th&eacute;orie
 
 L'algorithme original utilise seulement le test de Kwiatkowski-Phillips-Schmidt-Shin (KPSS) pour trouver l'ordre de diff&eacute;renciation. Ce paquet logiciel incorpore aussi le test augment&eacute; de Dickey-Fuller (ADF). Ce distinction est crucial. Le test de KPSS &eacute;value l'hypoth&egrave;se nulle que la s&eacute;rie temporelle est stationnaire environ une tendance d&eacute;terministe contre l'alternative de la pr&eacute;sence d'une racine unitaire. D'autre part, le test ADF &eacute;value l'hypoth&egrave;se nulle que la s&eacute;rie temporelle contient une racine unitaire contre l'alternative d'un processus stationnaire. Ces tests sont compl&eacute;mentaires et l'id&eacute;e derri&egrave;re cette mise en &oelig;uvre est que l'inclusion du test ADF rend plus solide la d&eacute;termination de l'ordre de diff&eacute;renciation.
 
 ## Complexit&eacute; temporelle
 
-Comme &ccedil;a, j'ai mesur&eacute; la complexit&eacute; temporelle de cet algorithme, y compris la proc&eacute;dure d'ajustement de StatsModels. J'ai g&eacute;n&eacute;r&eacute; des s&eacute;ries temporelles des longeurs diff&eacute;rentes *n* avec un mod&egrave;le ARMMI(2, 0, 1) et j'ai chronom&eacute;tr&eacute; l'algorithme pour 3 essais de 3 boucles pour chaque choix de *n* avec le module `timeit` de Python. La complexit&eacute; temporelle mesur&eacute; est &agrave; peu pr&egrave;s *O* (log *n*) :
+Comme &ccedil;a, j'ai mesur&eacute; la complexit&eacute; temporelle de cet algorithme, y compris la proc&eacute;dure d'ajustement de StatsModels. J'ai g&eacute;n&eacute;r&eacute; des s&eacute;ries temporelles de longeurs diff&eacute;rentes *n* avec un mod&egrave;le ARMMI(2, 0, 1) et j'ai chronom&eacute;tr&eacute; l'algorithme pour 3 essais de 3 boucles pour chaque choix de *n* avec le module `timeit` de Python. La complexit&eacute; temporelle mesur&eacute; est &agrave; peu pr&egrave;s *O* (log *n*) :
 
 <p align="center">
   <img src="./docs/complexite-temporelle.png">
 </p>
 
 Cependant, la capacit&eacute; de l'algorithme &agrave; se r&eacute;duire n'est pas essentiel pour ces raisons :
-- Pour beaucoup des s&eacute;ries temporelles, particuli&egrave;rement celles-ci qui ont une fr&eacute;quence plus grande, p. ex. mensuelle, il n'y a pas beaucoup des donn&eacute;es ; et
-- m&ecirc;me qu'il'y a beaucoup des donn&eacute;es, certaines n'auraient pas &agrave; voir avec l'analyse, en particulier les plus vieilles.
+- Pour beaucoup de s&eacute;ries temporelles, particuli&egrave;rement celles-ci qui ont une fr&eacute;quence plus grande, p. ex. mensuelle, il n'y a pas beaucoup de donn&eacute;es ; et
+- m&ecirc;me qu'il'y a beaucoup de donn&eacute;es, certaines n'auraient pas &agrave; voir avec l'analyse, en particulier les plus vieilles.
 
 Les sp&eacute;cifications de ma machine suivent :
 - OS Debian GNU/Linux 10,4
@@ -99,7 +99,7 @@ Les sp&eacute;cifications de ma machine suivent :
 
 ## Limites
 
-Ce paquet logiciel ne supporte pas maintenant des mod&egrave;les saisonni&egrave;res.
+Ce paquet logiciel ne supporte pas maintenant de mod&egrave;les saisonni&egrave;res.
 
 ***
 
